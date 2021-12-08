@@ -6,6 +6,7 @@ const useStyles = makeStyles({
     '& a': {
       color: '#fff',
       marginLeft: 10,
+      textDecoration: 'none',
     },
   },
   brand: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
   section: {
     marginBottom: 10,
     marginTop: 10,
-  }
+  },
 });
 
 export default useStyles;
