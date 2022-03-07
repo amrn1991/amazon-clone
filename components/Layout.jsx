@@ -5,19 +5,31 @@ import {
   Switch,
   Toolbar,
   Typography,
+  Badge,
 } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Store } from '../utils/context';
 import useStyles from '../utils/styles';
-import Cookies from "js-cookie"
+import Cookies from 'js-cookie';
 
 const Layout = ({ title, description, children }) => {
-  const { state: {darkMode}, dispatch } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
+  const [hasMounted, setHasMounted] = useState(false);
+  const { darkMode, cart } = state;
   const theme = createTheme({
+    components: {
+      MuiAppBar: {
+        styleOverrides: {
+          colorPrimary: {
+            backgroundColor: '#203040',
+          },
+        },
+      },
+    },
     typography: {
       h1: { fontSize: '1.6rem', fontWeight: 400, margin: '1rem 0' },
       h2: { fontSize: '1.4rem', fontWeight: 400, margin: '1rem 0' },
@@ -37,9 +49,14 @@ const Layout = ({ title, description, children }) => {
   const handleDarkMode = () => {
     dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
     const newDarkMode = !darkMode;
-    Cookies.set("darkMode", newDarkMode ? 'ON' : 'OFF', { secure: true })
+    Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF', { secure: true });
   };
 
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) return null;
   return (
     <div>
       <Head>
@@ -59,7 +76,18 @@ const Layout = ({ title, description, children }) => {
             <div>
               <Switch checked={darkMode} onChange={handleDarkMode} />
               <NextLink href="/cart" passHref>
-                <Link>Cart</Link>
+                <Link>
+                  {cart.cartItems.length > 0 ? (
+                    <Badge
+                      badgeContent={cart.cartItems.length}
+                      color="secondary"
+                    >
+                      Cart
+                    </Badge>
+                  ) : (
+                    'Cart'
+                  )}
+                </Link>
               </NextLink>
               <NextLink href="/login" passHref>
                 <Link>Login</Link>
