@@ -21,12 +21,14 @@ import Image from 'next/image';
 import Layout from '../components/Layout';
 import { Store } from '../utils/context';
 import axios from 'axios';
+import {useRouter} from 'next/router';
 
 const CartScreen = () => {
   const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
+  const router = useRouter();
 
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
