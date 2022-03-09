@@ -55,6 +55,9 @@ const Layout = ({ title, description, children }) => {
       secondary: {
         main: '#208080',
       },
+      light: {
+        main: '#e2e2e2'
+      }
     },
   });
   const classes = useStyles();

@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { useEffect } from 'react';
 import { StoreProvider } from '../utils/context';
+import { SnackbarProvider } from 'notistack';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -8,9 +9,11 @@ function MyApp({ Component, pageProps }) {
     if (jssStyles) jssStyles.parentElement.removeChild(jssStyles);
   }, []);
   return (
-    <StoreProvider>
-      <Component {...pageProps} />
-    </StoreProvider>
+    <SnackbarProvider anchorOrigin={{vertical: 'top', horizontal: 'center'}}>
+      <StoreProvider>
+        <Component {...pageProps} />
+      </StoreProvider>
+    </SnackbarProvider>
   );
 }
 

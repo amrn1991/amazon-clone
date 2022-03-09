@@ -35,6 +35,10 @@ const useStyles = makeStyles({
     color: '#fff',
     textTransform: 'initial',
   },
+  steps: {
+    backgroundColor: 'transparent',
+    marginTop: 10
+  },
 });
 
 export default useStyles;
